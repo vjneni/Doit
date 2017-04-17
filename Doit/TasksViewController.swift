@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -83,6 +84,16 @@ class TasksViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 nextVC.task = sender as? Task
             }
             
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+        let task = tasks[indexPath.row]
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        context.delete(task)
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
+        viewWillAppear(true)
         }
     }
 }
